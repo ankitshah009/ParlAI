@@ -1,13 +1,13 @@
-# Copyright (c) 2017-present, Facebook, Inc.
-# All rights reserved.
-# This source code is licensed under the BSD-style license found in the
-# LICENSE file in the root directory of this source tree. An additional grant
-# of patent rights can be found in the PATENTS file in the same directory.
-import copy
+#!/usr/bin/env python3
 
-from parlai.core.fbdialog_teacher import FbDialogTeacher
-from parlai.core.agents import MultiTaskTeacher
+# Copyright (c) Facebook, Inc. and its affiliates.
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
+from parlai.core.teachers import FbDeprecatedDialogTeacher, MultiTaskTeacher
 from .build import build
+
+import copy
+import os
 
 
 def _path(task, opt):
@@ -21,33 +21,34 @@ def _path(task, opt):
         suffix = 'test_2500ex'
     elif dt == 'valid':
         suffix = 'valid_2000ex'
-    return (opt['datapath'] +
-            '/CBT/CBTest/data/' +
-            task + '_' + suffix + '.txt')
+
+    return os.path.join(
+        opt['datapath'], 'CBT', 'CBTest', 'data', task + '_' + suffix + '.txt'
+    )
 
 
-class NETeacher(FbDialogTeacher):
+class NETeacher(FbDeprecatedDialogTeacher):
     def __init__(self, opt, shared=None):
         opt['datafile'] = _path('cbtest_NE', opt)
         opt['cloze'] = True
         super().__init__(opt, shared)
 
 
-class CNTeacher(FbDialogTeacher):
+class CNTeacher(FbDeprecatedDialogTeacher):
     def __init__(self, opt, shared=None):
         opt['datafile'] = _path('cbtest_CN', opt)
         opt['cloze'] = True
         super().__init__(opt, shared)
 
 
-class VTeacher(FbDialogTeacher):
+class VTeacher(FbDeprecatedDialogTeacher):
     def __init__(self, opt, shared=None):
         opt['datafile'] = _path('cbtest_V', opt)
         opt['cloze'] = True
         super().__init__(opt, shared)
 
 
-class PTeacher(FbDialogTeacher):
+class PTeacher(FbDeprecatedDialogTeacher):
     def __init__(self, opt, shared=None):
         opt['datafile'] = _path('cbtest_P', opt)
         opt['cloze'] = True

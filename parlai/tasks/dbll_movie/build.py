@@ -1,30 +1,25 @@
-# Copyright (c) 2017-present, Facebook, Inc.
-# All rights reserved.
-# This source code is licensed under the BSD-style license found in the
-# LICENSE file in the root directory of this source tree. An additional grant
-# of patent rights can be found in the PATENTS file in the same directory.
+#!/usr/bin/env python3
+
+# Copyright (c) Facebook, Inc. and its affiliates.
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
 #
 # Download and build the data if it does not exist.
 
-import parlai.core.build_data as build_data
+from parlai.core.build_data import DownloadableFile
+import parlai.tasks.dbll_babi.build as dbll_babi_build
 import parlai.tasks.wikimovies.build as wikimovies_build
+
+RESOURCES = [
+    DownloadableFile(
+        'http://parl.ai/downloads/dbll/dbll.tgz',
+        'dbll.tgz',
+        'd8c727dac498b652c7f5de6f72155dce711ff46c88401a303399d3fad4db1e68',
+    )
+]
 
 
 def build(opt):
     # Depends upon another dataset, wikimovies, build that first.
     wikimovies_build.build(opt)
-
-    dpath = opt['datapath'] + "/DBLL/"
-    if not build_data.built(dpath):
-        print("[building data: " + dpath + "]")
-        build_data.remove_dir(dpath)
-        build_data.make_dir(dpath)
-
-        # Download the data.
-        fname = "dbll.tgz"
-        url = "https://s3.amazonaws.com/fair-data/parlai/dbll/" + fname
-        build_data.download(dpath, url)
-        build_data.untar(dpath, fname)
-
-        # Mark the data as built.
-        build_data.mark_done(dpath)
+    dbll_babi_build.build(opt)

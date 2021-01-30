@@ -1,3 +1,0 @@
-pytorch
-pyzmq
-regex

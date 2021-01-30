@@ -1,25 +1,51 @@
-# Copyright (c) 2017-present, Facebook, Inc.
-# All rights reserved.
-# This source code is licensed under the BSD-style license found in the
-# LICENSE file in the root directory of this source tree. An additional grant
-# of patent rights can be found in the PATENTS file in the same directory.
+#!/usr/bin/env python3
+
+# Copyright (c) Facebook, Inc. and its affiliates.
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
+
+
+import sys
 
 from setuptools import setup, find_packages
 
-with open('README.md') as f:
-    readme = f.read()
+VERSION = '1.0.0'  # if you update, update parlai/__init__.py too!
 
-with open('LICENSE') as f:
-    license = f.read()
+if sys.version_info < (3, 7):
+    sys.exit('Sorry, Python >=3.7 is required for ParlAI.')
 
-setup(
-    name='parlai',
-    version='0.1.0',
-    description='Unified API for accessing dialog datasets.',
-    long_description=readme,
-    url='http://parl.ai/',
-    license=license,
-    packages=find_packages(exclude=(
-        'data', 'docs', 'downloads', 'examples', 'tests')),
-    install_requires=['nltk'],
-)
+with open('README.md', encoding="utf8") as f:
+    # strip the header and badges etc
+    readme = f.read().split('--------------------')[-1]
+
+with open('requirements.txt') as f:
+    reqs = []
+    for line in f:
+        line = line.strip()
+        reqs.append(line.split('==')[0])
+
+
+if __name__ == '__main__':
+    setup(
+        name='parlai',
+        version=VERSION,
+        description='Unified platform for dialogue research.',
+        long_description=readme,
+        long_description_content_type='text/markdown',
+        url='http://parl.ai/',
+        python_requires='>=3.7',
+        packages=find_packages(exclude=('data', 'docs', 'tests', 'parlai_internal*')),
+        install_requires=reqs,
+        include_package_data=True,
+        package_data={'': ['*.txt', '*.md']},
+        entry_points={
+            "flake8.extension": ["PAI = parlai.utils.flake8:ParlAIChecker"],
+            "console_scripts": ["parlai=parlai.__main__:main"],
+        },
+        classifiers=[
+            "Programming Language :: Python :: 3",
+            "License :: OSI Approved :: MIT License",
+            "Topic :: Scientific/Engineering :: Artificial Intelligence",
+            "Natural Language :: English",
+        ],
+    )

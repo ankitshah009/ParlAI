@@ -7,13 +7,18 @@ desired to increase the pool of tasks, models, and baselines.
 ## Pull Requests
 We actively welcome your pull requests.
 
-1. Fork the repo and create your branch from `master`.
-2. If you've added code that should be tested, add tests.
-3. If you've changed APIs, update the documentation.
-4. Ensure the test suite passes (you can skip test\_data.py but should include a
-    passing test for your tasks if you add any).
-5. Make sure your code lints.
-6. If you haven't already, complete the Contributor License Agreement ("CLA").
+1. Fork the repo and create your branch from `master`. Set up your environment
+   and run `pre-commit install` once.
+2. Link [CircleCI](https://circleci.com/vcs-authorize/) to your github account 
+   if you haven't done so previously (and make sure the CircleCI tests run 
+   successfully).
+3. If you've added code that should be tested, add tests.
+4. If you've changed APIs, update the documentation.
+5. Autoformat and lint your code (`bash autoformat.sh`)
+6. Ensure the test suite passes. Run `python -m pytest -m unit`.
+7. If you've added a new dataset, you should also run
+   `python -m pytest -m data`. Copy-paste the output into a comment in your PR.
+8. If you haven't already, complete the Contributor License Agreement ("CLA").
 
 ## Contributor License Agreement ("CLA")
 In order to accept your pull request, we need you to submit a CLA. You only need
@@ -22,15 +27,17 @@ to do this once to work on any of Facebook's open source projects.
 Complete your CLA here: <https://code.facebook.com/cla>
 
 ## Issues
-We use GitHub issues to track public bugs. Please ensure your description is
-clear and has sufficient instructions to be able to reproduce the issue.
+We use GitHub issues for general feature discussion, Q&A and public bugs tracking.
+Please ensure your description is clear and has sufficient instructions to be able to
+reproduce the issue or understand the problem.
 
 Facebook has a [bounty program](https://www.facebook.com/whitehat/) for the safe
 disclosure of security bugs. In those cases, please go through the process
 outlined on that page and do not file a public issue.
 
-## Coding Style  
-We try to follow the PEP style guidelines and encourage you to as well.
+## Coding Style
+We try to follow the PEP style guidelines and encourage you to as well. You
+should run the `lint_changed.sh` script before you submit.
 
 ## License
 By contributing to ParlAI, you agree that your contributions will be licensed
